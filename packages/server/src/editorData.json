@@ -4,7 +4,7 @@
       "id": 1,
       "type": "text",
       "data": "文本组件",
-      "color": "#ffffff",
+      "color": "#000000",
       "size": "12px",
       "width": "100px",
       "height": "100px",

@@ -5,20 +5,32 @@ import { getDataList } from "@/api";
 
 import { useEditorStore } from "@/store";
 
+// 获取唯一随机不重复tag
+const useTag:() => string = () => {
+  return String(Math.random()).slice(2)
+}
+
 const editorStore = useEditorStore();
 
 const handleDragEnd = (e: DragEvent) => {
   const target = e.target as HTMLElement;
   const id = Number(target.dataset.id);
+  const tag = useTag();
 
   // 根据 dataset 中绑定的 id 获取到对应的组件信息
   // 然后就可以在画布的 drop 事件中获取到
-  const data = editorStore.getDataById(id);
-
+  const data = editorStore.editorDataList.find(item => item.id === id)
+  
   if (data) {
     data.top = `${e.y}px`;
     data.left = `${e.x}px`;
-    editorStore.addCanvasData(data);
+    // 根据tag构造唯一的数据，避免使用同一地址
+    const ultimateData = {
+      ...data,
+      tag
+    }
+    // 将其添加到画布并展示
+    editorStore.addCanvasData(ultimateData)
   }
 };
 
